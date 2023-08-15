@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>Register - Task Manager</title>
+{% endblock %}
+
+{% block body %}
+    <section class="col-12 col-md-6 m-auto">
+        <form action="{{ url_for('auth.register') }}" method="post">
+            {{ form.csrf_token }}
+
+            <h1 class="h3 mb-4 fw-normal">Register a new account</h1>
+
+            <div class="form-floating mb-3">
+                {{ form.email(class="form-control", id="floatingEmail", placeholder="name@example.com") }}
+                <label for="floatingEmail">Email address</label>
+            </div>
+            <div class="form-floating mb-3">
+                {{ form.password(class="form-control", id="floatingPassword", placeholder="Password") }}
+                <label for="floatingPassword">Password</label>
+            </div>
+            <div class="form-floating mb-3">
+                {{ form.confirm_password(class="form-control", id="floatingConfirm", placeholder="Confirm Password") }}
+                <label for="floatingConfirm">Confirm Password</label>
+            </div>
+
+            {{ form.submit(class="btn btn-primary") }}
+            <a href="{{ url_for('auth.login') }}" class="float-end">Login instead</a>
+        </form>
+    </section>
+{% endblock %}
