@@ -7,8 +7,11 @@ from flask_login import LoginManager
 from pymongo import MongoClient
 
 from .auth import auth
-from .models.user import User
+from .groups import groups
 from .routes import routes
+from .tasks import tasks
+
+from .auth.models import User
 
 load_dotenv()
 
@@ -33,7 +36,9 @@ def create_app():
         return User.get_user_by_id(user_id)
 
     # Blueprints
-    app.register_blueprint(routes)
     app.register_blueprint(auth)
+    app.register_blueprint(groups, url_prefix='/groups')
+    app.register_blueprint(tasks, url_prefix='/tasks')
+    app.register_blueprint(routes)
 
     return app

@@ -1,0 +1,22 @@
+{% from 'macros/task-card.jinja2' import task_card %}
+
+{% macro group_card(group) %}
+
+    <div class="col">
+        <div class="card mb-4 rounded-3 shadow-sm h-100">
+            <div class="card-header py-3">
+                <h4 class="my-0 fw-normal">{{ group.title }}</h4>
+            </div>
+            <div class="card-body text-start">
+
+                {% for task in group.task_objects %}
+                    {{ task_card(task) }}
+                {% endfor %}
+
+                <a href="{{ url_for('tasks.add_task', group_id=group.id) }}"
+                   class="w-100 btn btn-lg btn-outline-secondary">Add task</a>
+            </div>
+        </div>
+    </div>
+
+{% endmacro %}

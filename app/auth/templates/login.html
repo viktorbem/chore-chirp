@@ -12,15 +12,15 @@
             <h1 class="h3 mb-4 fw-normal">Log in to your account</h1>
 
             <div class="form-floating mb-3">
-                {{ form.email(class="form-control", id="floatingEmail", placeholder="name@example.com") }}
+                {{ form.email(class='form-control', id='floatingEmail', placeholder='name@example.com') }}
                 <label for="floatingEmail">Email address</label>
             </div>
             <div class="form-floating mb-3">
-                {{ form.password(class="form-control", id="floatingPassword", placeholder="Password") }}
+                {{ form.password(class='form-control', id='floatingPassword', placeholder='Password') }}
                 <label for="floatingPassword">Password</label>
             </div>
 
-            {{ form.submit(class="btn btn-primary") }}
+            {{ form.submit(class='btn btn-primary') }}
             <a href="{{ url_for('auth.register') }}" class="float-end">Register instead</a>
         </form>
     </section>

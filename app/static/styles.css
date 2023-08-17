@@ -1,0 +1,10 @@
+body {
+    min-height: 100vh;
+}
+
+a.btn.btn-outline-secondary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-style: dashed;
+}

@@ -10,6 +10,9 @@
           rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
           crossorigin="anonymous">
 
+    <!-- Custom CSS override -->
+    <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
+
     {% block head %}{% endblock %}
 </head>
 

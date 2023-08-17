@@ -4,10 +4,10 @@ from bson import ObjectId
 
 
 class User(UserMixin):
-    def __init__(self, data):
-        self.id = str(data['_id'])
-        self.email = data['email']
-        self.password = data['password']
+    def __init__(self, user_data):
+        self.id = str(user_data['_id'])
+        self.email = user_data['email']
+        self.password = user_data['password']
 
     def get_id(self):
         return self.id
