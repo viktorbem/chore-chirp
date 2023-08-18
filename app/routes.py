@@ -10,8 +10,8 @@ routes = Blueprint('routes', __name__)
 @routes.route('/')
 @login_required
 def index():
-    groups = Group.get_groups_by_user(current_user)
+    groups = Group.get_groups_by_user(current_user.id)
     for group in groups:
-        group.task_objects = [Task.get_task_by_id(task_id) for task_id in group.tasks]
+        group.task_objects = Task.get_tasks_by_group(group.id)
 
     return render_template('index.html', groups=groups)

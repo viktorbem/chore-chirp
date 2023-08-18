@@ -1,6 +1,6 @@
 {% macro task_card(task) %}
 
-    <div class="card mb-2 rounded-3 shadow-sm">
+    <div class="card card-task mb-2 rounded-3 shadow-sm" data-task-id="{{ task.id }}" draggable="true">
         <div class="card-body">
             <h5>{{ task.title }}</h5>
             <p class="small">{{ task.description | truncate(100) }}</p>

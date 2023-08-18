@@ -9,7 +9,7 @@
         <form action="{{ url_for('tasks.add_task') }}" method="post">
             {{ form.csrf_token }}
 
-            {{ form.group() }}
+            {{ form.group_id() }}
 
             <h1 class="h3 mb4 fw-normal">Add new task</h1>
 

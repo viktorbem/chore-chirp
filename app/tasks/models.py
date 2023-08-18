@@ -1,40 +1,43 @@
 from bson import ObjectId
-from flask import current_app
 from datetime import datetime
-
-# TODO: We need to remove this to keep this module independent
-from app.groups.models import Group
+from flask import current_app
 
 
 class Task:
     def __init__(self, task_data):
-        self.id = str(task_data['_id'])
+        self.id = task_data['_id']
         self.title = task_data['title']
         self.description = task_data['description']
-        self.group = task_data['group']
-        self.user = task_data['user_id']
+        self.group_id = task_data['group_id']
+        self.position = task_data['position']
+        self.user_id = task_data['user_id']
         self.created_at = task_data['created_at']
 
-    @staticmethod
-    def create_task(user, title, description, group_id):
-        current_group = Group.get_group_by_id(group_id)
-        if not current_group:
-            return None
+    @classmethod
+    def update_one(cls, task_id, payload):
+        return current_app.db.tasks.update_one(
+            {'_id': ObjectId(task_id)},
+            {'$set': payload}
+        )
 
-        group_tasks = [task for task in current_group.tasks]
+    @staticmethod
+    def create_task(user_id, title, description, group_id):
+        group_tasks = Task.get_tasks_by_group(group_id)
+        position = 0
+        if len(group_tasks) > 0:
+            last_task = group_tasks.pop()
+            position = last_task.position + 1
         task_data = {
             'title': title,
             'description': description,
-            'group': group_id,
-            'position': len(group_tasks),
-            'user_id': user.id,
+            'group_id': group_id,
+            'position': position,
+            'user_id': user_id,
             'created_at': datetime.now()
         }
         new_task = current_app.db.tasks.insert_one(task_data)
         if new_task:
             task_data['_id'] = new_task.inserted_id
-            group_tasks.append(new_task.inserted_id)
-            current_group.update_tasks(group_tasks)
             return Task(task_data)
 
         return None
@@ -48,8 +51,16 @@ class Task:
         return None
 
     @staticmethod
-    def get_tasks_by_user(user):
-        tasks = current_app.db.tasks.find({'user_id': user.id})
+    def get_tasks_by_group(group_id):
+        tasks = current_app.db.tasks.find({'group_id': str(group_id)}).sort('position', 1)
+        if tasks:
+            return [Task(task_data) for task_data in tasks]
+
+        return []
+
+    @staticmethod
+    def get_tasks_by_user(user_id):
+        tasks = current_app.db.tasks.find({'user_id': user_id})
         if tasks:
             return [Task(task_data) for task_data in tasks]
 

@@ -8,3 +8,14 @@ a.btn.btn-outline-secondary {
     justify-content: center;
     border-style: dashed;
 }
+
+.card-task.dragging {
+    opacity: 0.5;
+    background-color: var(--bs-gray-300);
+}
+
+.col.dragging > .card,
+.col.dragging .card-task {
+    opacity: 0.5;
+    background-color: var(--bs-gray-300);
+}
