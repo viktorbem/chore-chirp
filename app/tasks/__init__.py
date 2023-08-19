@@ -51,12 +51,13 @@ def edit_task(task_id):
     if form.validate_on_submit():
         update = {
             'title': form.title.data,
-            'group': form.group.data,
+            'group_id': form.group.data,
             'description': form.description.data,
             'last_update': datetime.now()
         }
 
         # TODO: Create a history module and save every update in it
+        # TODO: If the group_id has changed, this task should be at the end of the list
 
         result = Task.update_one(task_id, update)
         if result.modified_count == 0:
