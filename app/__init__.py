@@ -6,13 +6,15 @@ from flask import Flask
 from flask_login import LoginManager
 from pymongo import MongoClient
 
-from .auth import auth
-from .comments import comments
-from .groups import groups
+from .helpers import parse_markdown
 from .routes import routes
-from .tasks import tasks
 
-from .auth.models import User
+from app.blueprints.auth import auth
+from app.blueprints.comments import comments
+from app.blueprints.groups import groups
+from app.blueprints.tasks import tasks
+
+from app.blueprints.auth.models import User
 
 load_dotenv()
 
@@ -42,5 +44,8 @@ def create_app():
     app.register_blueprint(groups, url_prefix='/groups')
     app.register_blueprint(tasks, url_prefix='/tasks')
     app.register_blueprint(routes)
+
+    # Custom jinja filters
+    app.jinja_env.filters['markdown'] = parse_markdown
 
     return app

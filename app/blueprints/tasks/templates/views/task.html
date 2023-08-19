@@ -24,7 +24,7 @@
             </div>
 
             <div class="card-body">
-                {{ task.description }}
+                {{ task.description | markdown | safe }}
             </div>
         </div>
     </section>

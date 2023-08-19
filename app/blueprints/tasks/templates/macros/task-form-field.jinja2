@@ -7,7 +7,9 @@
 
     <div class="form-floating mb-3">
         {{ field(class_=custom_class, placeholder=field.label.text) }}
-        <label for="{{ field.id }}">{{ field.label.text }}</label>
+        {% if field.type != 'TextAreaField' %}
+            <label for="{{ field.id }}">{{ field.label.text }}</label>
+        {% endif %}
     </div>
 
 {% endmacro %}

@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template
 from flask_login import login_required, current_user
 
-from app.groups.models import Group
-from app.tasks.models import Task
+from app.blueprints.groups.models import Group
+from app.blueprints.tasks.models import Task
 
 routes = Blueprint('routes', __name__)
 

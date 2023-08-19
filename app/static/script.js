@@ -196,3 +196,12 @@ document.querySelectorAll('.link-edit-group-name').forEach((editLink) => {
         taskGroupFormInput.addEventListener('blur', handleTaskGroupFormChange);
    });
 });
+
+
+/**
+ * Markdown editor related features
+ */
+
+document.querySelectorAll('textarea').forEach((element) => {
+    new SimpleMDE({ element: element, forceSync: true, status: false });
+})

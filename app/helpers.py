@@ -1,5 +1,9 @@
 from datetime import datetime
+from html import unescape
+import re
 
+import bleach
+from markdown import markdown
 from bson import ObjectId
 from flask import current_app
 
@@ -38,3 +42,23 @@ def get_user_email(user_id):
         return user['email']
 
     return 'N/A'
+
+
+def parse_markdown(text):
+    return markdown(text, extensions=['fenced_code', 'codehilite'])
+
+
+def sanitize_markdown(text):
+
+    def replace_entity(match):
+        return unescape(match.group(0))
+
+    tags = ['br']
+    attributes = bleach.sanitizer.ALLOWED_ATTRIBUTES
+
+    code_pattern = re.compile(r'```.*?```', re.DOTALL)
+    sanitized_text = bleach.clean(text, tags=tags, attributes=attributes, strip=False)
+    sanitized_text = code_pattern.sub(lambda match: re.sub(r'&\w+;', replace_entity, match.group(0)),
+                                      sanitized_text)
+
+    return sanitized_text

@@ -1,8 +1,8 @@
 from flask import Blueprint, flash, jsonify, redirect, request, url_for
 from flask_login import current_user, login_required
 
-from app.groups.forms import AddGroupForm
-from app.groups.models import Group
+from app.blueprints.groups.forms import AddGroupForm
+from app.blueprints.groups.models import Group
 
 from app.helpers import get_group_tasks_count
 

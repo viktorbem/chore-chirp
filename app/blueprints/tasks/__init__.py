@@ -3,10 +3,10 @@ from datetime import datetime
 from flask import Blueprint, flash, jsonify, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 
-from app.tasks.forms import AddTaskForm, EditTaskForm
-from app.tasks.models import Task
+from app.blueprints.tasks.forms import AddTaskForm, EditTaskForm
+from app.blueprints.tasks.models import Task
 
-from app.helpers import get_group_choices
+from app.helpers import get_group_choices, sanitize_markdown
 
 tasks = Blueprint('tasks', __name__, template_folder='templates')
 
@@ -22,7 +22,7 @@ def add_task():
     if form.validate_on_submit():
         title = form.title.data
         group_id = form.group.data
-        description = form.description.data
+        description = sanitize_markdown(form.description.data)
 
         new_task = Task.create_task(current_user.id, title, description, group_id)
         return redirect(url_for('routes.index'))
@@ -52,7 +52,7 @@ def edit_task(task_id):
         update = {
             'title': form.title.data,
             'group_id': form.group.data,
-            'description': form.description.data,
+            'description': sanitize_markdown(form.description.data),
             'last_update': datetime.now()
         }
 

@@ -3,7 +3,9 @@
     <div class="card card-task mb-2 rounded-3 shadow-sm" data-task-id="{{ task.id }}" draggable="true">
         <a href="{{ url_for('tasks.view_task', task_id=task.id) }}" class="card-body text-decoration-none">
             <h5>{{ task.title }}</h5>
-            <p class="small">{{ task.description | truncate(100) }}</p>
+            <p class="small">
+                {{ task.description | markdown | striptags | truncate(100, True) }}
+            </p>
         </a>
     </div>
 
