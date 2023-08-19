@@ -1,3 +1,5 @@
+/* TODO: These styles might need some refactoring */
+
 body {
     min-height: 100vh;
 }
@@ -18,4 +20,9 @@ a.btn.btn-outline-secondary {
 .col.dragging .card-task {
     opacity: 0.5;
     background-color: var(--bs-gray-300);
+}
+
+.task-group-title .link-secondary,
+.task-detail-title .link-secondary {
+    text-decoration: none !important;
 }

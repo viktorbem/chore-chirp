@@ -2,7 +2,7 @@
 
 <section>
     <h1 class="h3 mb-4 fw-normal">Your tasks</h1>
-    <div class="task-group-container row row-cols-1 row-cols-lg-4 text-center align-items-stretch gy-4">
+    <div class="task-group-container row row-cols-1 row-cols-lg-4 align-items-stretch gy-4">
         {% for group in groups %}
             {{ group_card(group) }}
         {% endfor %}

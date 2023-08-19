@@ -1,0 +1,32 @@
+{% from 'macros/task-form-field.jinja2' import task_form_field %}
+
+{% extends 'base-task.html' %}
+
+{% block head %}
+    <title>Add new task - Task Manager</title>
+{% endblock %}
+
+{% block main_column %}
+    <section class="mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="h3 fw-normal">Add new task</h1>
+            </div>
+
+            <div class="card-body">
+                <form action="{{ url_for('tasks.add_task') }}" method="post">
+                    {{ form.csrf_token }}
+
+                    {{ task_form_field(form.title) }}
+                    {{ task_form_field(form.group) }}
+                    {{ task_form_field(form.description) }}
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        {{ form.submit(class='btn btn-primary w-25') }}
+                        <a href="{{ url_for('routes.index') }}">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock %}

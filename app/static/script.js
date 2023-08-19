@@ -1,3 +1,9 @@
+// TODO: This file desperately needs some refactoring
+
+/**
+ * Drag and drop related features
+ */
+
 class Dragger {
     constructor(containerSelector, childSelector, handler=null, horizontal=false) {
         this.containerSelector = containerSelector;
@@ -129,3 +135,64 @@ async function handleGroupChanges(element) {
 
 new Dragger('.card-task-container', '.card-task[draggable="true"]', handleTaskChanges);
 new Dragger('.row', '.col[draggable="true"]', handleGroupChanges, true);
+
+
+/**
+ * Edit group name related features
+ */
+
+document.querySelectorAll('.link-edit-group-name').forEach((editLink) => {
+    editLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        const editLinkParent = editLink.closest('[data-group-id]');
+        const groupId = editLinkParent.dataset.groupId;
+
+        const taskGroupTitle = editLinkParent.querySelector('.task-group-title');
+        taskGroupTitle.classList.remove('d-flex');
+        taskGroupTitle.classList.add('d-none');
+
+        const taskGroupForm = editLinkParent.querySelector('.task-group-form');
+        taskGroupForm.classList.remove('d-none');
+        taskGroupForm.classList.add('d-flex');
+
+        const taskGroupFormInput = taskGroupForm.querySelector('input');
+        taskGroupFormInput.focus();
+
+        async function handleTaskGroupFormChange(event) {
+            event.preventDefault();
+
+            const newTitle = taskGroupFormInput.value;
+            taskGroupTitle.querySelector('span').innerText = newTitle;
+
+            try {
+                await fetch(App.endpoints.updateGroups, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        user_id: App.userId,
+                        updates: [{
+                            group_id: groupId,
+                            title: newTitle,
+                        }],
+                    }),
+                });
+            } catch (err) {
+                console.error('Unable to update group title:', err);
+            }
+
+            taskGroupTitle.classList.remove('d-none');
+            taskGroupTitle.classList.add('d-flex');
+
+            taskGroupForm.classList.remove('d-flex');
+            taskGroupForm.classList.add('d-none');
+
+            taskGroupFormInput.removeEventListener('change', handleTaskGroupFormChange);
+            taskGroupFormInput.removeEventListener('blur', handleTaskGroupFormChange);
+        }
+
+        taskGroupFormInput.addEventListener('change', handleTaskGroupFormChange);
+        taskGroupFormInput.addEventListener('blur', handleTaskGroupFormChange);
+   });
+});

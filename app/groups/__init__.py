@@ -1,25 +1,47 @@
-from flask import Blueprint, jsonify, redirect, render_template, request, url_for
+from flask import Blueprint, flash, jsonify, redirect, request, url_for
 from flask_login import current_user, login_required
 
 from app.groups.forms import AddGroupForm
 from app.groups.models import Group
+
+from app.helpers import get_group_tasks_count
 
 groups = Blueprint('groups', __name__, template_folder='templates')
 
 
 # Frontend routes
 
-@groups.route('/add', methods=['GET', 'POST'])
+@groups.route('/add')
 @login_required
 def add_group():
-    form = AddGroupForm()
-    if form.validate_on_submit():
-        title = form.title.data
+    # TODO: It might be fun to use some API to randomly generate group titles
+    new_group = Group.create_group(current_user.id, 'Untitled group')
+    if not new_group:
+        flash('New group could not be added. Please try again later.', 'warning')
 
-        new_group = Group.create_group(current_user.id, title)
+    return redirect(url_for('routes.index'))
+
+
+@groups.route('/remove/<group_id>')
+@login_required
+def remove_group(group_id):
+    group = Group.get_group_by_id(group_id)
+    if not group or group.user_id != current_user.id:
+        flash('You are not allowed to delete this group.', 'warning')
         return redirect(url_for('routes.index'))
 
-    return render_template('add-group.html', form=form)
+    task_count = get_group_tasks_count(group_id)
+    if task_count > 0:
+        flash('The group could not be deleted, because it\'s not empty.', 'warning')
+        return redirect(url_for('routes.index'))
+
+    result = Group.remove_one(group_id)
+    if result.deleted_count == 0:
+        flash('The group was not deleted. Please try again later.', 'danger')
+    else:
+        flash('The group was successfully deleted.', 'success')
+
+    return redirect(url_for('routes.index'))
 
 
 # API routes

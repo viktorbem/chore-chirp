@@ -1,0 +1,13 @@
+{% macro task_form_field(field) %}
+
+    {% set custom_class = 'form-control' %}
+    {% if field.type == 'SelectField' %}
+        {% set custom_class = 'form-select' %}
+    {% endif %}
+
+    <div class="form-floating mb-3">
+        {{ field(class_=custom_class, placeholder=field.label.text) }}
+        <label for="{{ field.id }}">{{ field.label.text }}</label>
+    </div>
+
+{% endmacro %}
