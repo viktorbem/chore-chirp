@@ -3,9 +3,9 @@ from html import unescape
 import re
 
 import bleach
-from markdown import markdown
 from bson import ObjectId
 from flask import current_app
+from markdown import markdown
 
 
 def get_date_formatted(timestamp, pattern='%Y-%m-%d %H:%M'):
@@ -45,6 +45,9 @@ def get_user_email(user_id):
 
 
 def parse_markdown(text):
+
+    # TODO: Improve the extensions so that we can render checkboxes
+
     return markdown(text, extensions=['fenced_code', 'codehilite'])
 
 
