@@ -15,23 +15,23 @@
                             <div>
                                 <a href="#" v-if="isChoreOwner('{{ chore.id }}')" @click.prevent="toggleCommentVisible(comment.id)"
                                    class="ms-2 link-secondary" title="Show comment">
-                                    <i class="bi bi-eye text-primary"></i>
+                                    <i class="bi bi-eye"></i>
                                 </a>
                             </div>
                         </template>
                         <template v-else>
                             <div>
                                 <span>${comment.user}</span>
-                                <span class="d-none d-lg-block comment-timestamp text-body-tertiary">${comment.created_at}</span>
+                                <span class="d-none d-lg-inline-block comment-timestamp text-body-tertiary">${comment.created_at}</span>
                             </div>
                             <div v-if="!isCommentEdited(comment.id)">
                                 <a href="#" v-if="isCommentAuthor(comment.id)" @click.prevent="toggleCommentEdit(comment.id)"
                                    class="ms-2 link-secondary" title="Edit comment">
-                                    <i class="bi bi-pencil-square text-secondary"></i>
+                                    <i class="bi bi-pencil-square"></i>
                                 </a>
                                 <a href="#" v-if="isChoreOwner('{{ chore.id }}')" @click.prevent="toggleCommentVisible(comment.id)"
                                    class="ms-2 link-secondary" title="Hide comment">
-                                    <i class="bi bi-eye-slash text-primary"></i>
+                                    <i class="bi bi-eye-slash"></i>
                                 </a>
                             </div>
                         </template>
