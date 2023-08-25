@@ -11,13 +11,13 @@ comments = Blueprint('comments', __name__, template_folder='templates')
 
 @comments.route('/')
 def get_comments():
-    task_id = request.args.get('task_id')
-    if not task_id:
-        return jsonify({'error': 'Unable to fetch comments due to missing task ID.'}), 403
+    chore_id = request.args.get('chore_id')
+    if not chore_id:
+        return jsonify({'error': 'Unable to fetch comments due to missing chore ID.'}), 403
 
-    stored_comments = Comment.get_comments_by_task(task_id)
+    stored_comments = Comment.get_comments_by_chore(chore_id)
     if len(stored_comments) == 0:
-        return jsonify({'error': 'No comments for this task.'}), 404
+        return jsonify({'error': 'No comments for this chore.'}), 404
 
     return jsonify({'success': 'true', 'comments': [comment.get_dict() for comment in stored_comments]}), 200
 
@@ -30,12 +30,12 @@ def add_comment():
     if user_id != current_user.id:
         return jsonify({'error': 'You are not allowed to post a comment.'}), 403
 
-    task_id = data.get('task_id')
+    chore_id = data.get('chore_id')
     sanitized_body = sanitize_markdown(data.get('comment_body'))
 
     # TODO: Adding a comment should be also stored in a history module
 
-    new_comment = Comment.create_comment(user_id, task_id, sanitized_body)
+    new_comment = Comment.create_comment(user_id, chore_id, sanitized_body)
     if not new_comment:
         return jsonify({'error': 'Unable to save the comment. Please try again.'}), 403
 

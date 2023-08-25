@@ -24,8 +24,8 @@ def get_group_choices(user_id):
     return group_choices
 
 
-def get_group_tasks_count(group_id):
-    return current_app.db.tasks.count_documents({'group_id': str(group_id)})
+def get_group_chores_count(group_id):
+    return current_app.db.chores.count_documents({'group_id': str(group_id)})
 
 
 def get_group_title(group_id):

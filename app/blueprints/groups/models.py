@@ -4,10 +4,10 @@ from flask import current_app
 
 class Group:
     def __init__(self, group_data):
-        self.id = group_data['_id']
-        self.title = group_data['title']
-        self.position = group_data['position']
-        self.user_id = group_data['user_id']
+        self.id = group_data.get('_id')
+        self.title = group_data.get('title')
+        self.position = group_data.get('position')
+        self.user_id = group_data.get('user_id')
 
     @classmethod
     def create_group(cls, user_id, title):

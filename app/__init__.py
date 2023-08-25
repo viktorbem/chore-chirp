@@ -9,12 +9,12 @@ from pymongo import MongoClient
 from .helpers import parse_markdown
 from .routes import routes
 
-from app.blueprints.auth import auth
+from app.blueprints.chores import chores
 from app.blueprints.comments import comments
 from app.blueprints.groups import groups
-from app.blueprints.tasks import tasks
 
-from app.blueprints.auth.models import User
+from app.blueprints.user import user
+from app.blueprints.user.models import User
 
 load_dotenv()
 
@@ -30,7 +30,7 @@ def create_app():
     # LoginManager initialization and configuration
     login_manager = LoginManager()
     login_manager.init_app(app)
-    login_manager.login_view = 'auth.login'
+    login_manager.login_view = 'user.login'
     login_manager.login_message = 'You need to be logged in.'
     login_manager.login_message_category = 'warning'
 
@@ -39,10 +39,10 @@ def create_app():
         return User.get_user_by_id(user_id)
 
     # Blueprints
-    app.register_blueprint(auth)
+    app.register_blueprint(user)
+    app.register_blueprint(chores, url_prefix='/chores')
     app.register_blueprint(comments, url_prefix='/comments')
     app.register_blueprint(groups, url_prefix='/groups')
-    app.register_blueprint(tasks, url_prefix='/tasks')
     app.register_blueprint(routes)
 
     # Custom jinja filters

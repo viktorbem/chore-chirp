@@ -8,12 +8,12 @@ from app.helpers import get_date_formatted, get_user_email, parse_markdown
 
 class Comment:
     def __init__(self, comment_data):
-        self.id = comment_data['_id']
-        self.body = comment_data['body']
-        self.task_id = comment_data['task_id']
-        self.user_id = comment_data['user_id']
-        self.created_at = comment_data['created_at']
-        self.last_update = comment_data.get('last_update', None)
+        self.id = comment_data.get('_id')
+        self.body = comment_data.get('body')
+        self.chore_id = comment_data.get('chore_id')
+        self.user_id = comment_data.get('user_id')
+        self.created_at = comment_data.get('created_at')
+        self.last_update = comment_data.get('last_update')
         self.hidden = comment_data.get('hidden', False)
 
     def get_dict(self):
@@ -21,7 +21,7 @@ class Comment:
             'id': str(self.id),
             'body': parse_markdown(self.body),
             'raw_body': self.body,
-            'task_id': self.task_id,
+            'chore_id': self.chore_id,
             'user': get_user_email(self.user_id),
             'user_id': self.user_id,
             'created_at': get_date_formatted(self.created_at),
@@ -40,11 +40,11 @@ class Comment:
         )
 
     @classmethod
-    def create_comment(cls, user_id, task_id, body):
+    def create_comment(cls, user_id, chore_id, body):
         comment_data = {
             'body': body,
             'user_id': user_id,
-            'task_id': task_id,
+            'chore_id': chore_id,
             'created_at': datetime.now()
         }
         new_comment = current_app.db.comments.insert_one(comment_data)
@@ -63,8 +63,8 @@ class Comment:
         return None
 
     @classmethod
-    def get_comments_by_task(cls, task_id):
-        comments = current_app.db.comments.find({'task_id': task_id})
+    def get_comments_by_chore(cls, chore_id):
+        comments = current_app.db.comments.find({'chore_id': chore_id})
         if comments:
             return [cls(comment_data) for comment_data in comments]
 

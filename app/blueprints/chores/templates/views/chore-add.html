@@ -1,0 +1,32 @@
+{% from 'macros/chore-form-field.jinja2' import chore_form_field %}
+
+{% extends 'base-chore.html' %}
+
+{% block head %}
+    <title>Add new chore - ChoreChirp</title>
+{% endblock %}
+
+{% block main_column %}
+    <section class="mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="h3 fw-normal">Add new chore</h1>
+            </div>
+
+            <div class="card-body">
+                <form action="{{ url_for('chores.add_chore') }}" method="post">
+                    {{ form.csrf_token }}
+
+                    {{ chore_form_field(form.title) }}
+                    {{ chore_form_field(form.group) }}
+                    {{ chore_form_field(form.description) }}
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="{{ url_for('routes.index') }}" class="btn btn-outline-secondary col-5 col-lg-3">Cancel</a>
+                        {{ form.submit(class='btn btn-success col-5 col-lg-3') }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,4 +1,4 @@
-{% from 'macros/task-metadata-line.jinja2' import task_metadata_line %}
+{% from 'macros/chore-metadata-line.jinja2' import chore_metadata_line %}
 
 <section class="mb-4">
     <div class="card">
@@ -8,7 +8,7 @@
         <div class="card-body">
             {% for key, value in metadata %}
                 {% if value %}
-                    {{ task_metadata_line(key, value) }}
+                    {{ chore_metadata_line(key, value) }}
                 {% endif %}
             {% endfor %}
         </div>

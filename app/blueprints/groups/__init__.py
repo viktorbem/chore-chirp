@@ -4,7 +4,7 @@ from flask_login import current_user, login_required
 from app.blueprints.groups.forms import AddGroupForm
 from app.blueprints.groups.models import Group
 
-from app.helpers import get_group_tasks_count
+from app.helpers import get_group_chores_count
 
 groups = Blueprint('groups', __name__, template_folder='templates')
 
@@ -30,8 +30,8 @@ def remove_group(group_id):
         flash('You are not allowed to delete this group.', 'warning')
         return redirect(url_for('routes.index'))
 
-    task_count = get_group_tasks_count(group_id)
-    if task_count > 0:
+    chore_count = get_group_chores_count(group_id)
+    if chore_count > 0:
         flash('The group could not be deleted, because it\'s not empty.', 'warning')
         return redirect(url_for('routes.index'))
 

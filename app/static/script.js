@@ -1,5 +1,6 @@
 // TODO: This file desperately needs some refactoring
 
+
 /**
  * An object to handle all fetch requests
  */
@@ -18,6 +19,55 @@ const Fetcher = (() => {
     };
 
     return {get, post};
+})();
+
+
+/**
+ * Dark Mode Toggler
+ */
+
+(() => {
+    const darkModeToggler = document.getElementById('dark-mode-toggle');
+    const registerThemeInput = document.querySelector('input#theme[type="hidden"]');
+
+    function getCurrentTheme() {
+        return document.documentElement.getAttribute('data-bs-theme');
+    }
+
+    function updateThemeValues(theme) {
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        if (!registerThemeInput) return;
+        registerThemeInput.value = theme;
+    }
+
+    if (getCurrentTheme() === '') {
+        const preferredTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        updateThemeValues(preferredTheme);
+    }
+
+    darkModeToggler?.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        // Get the currently set theme
+        const currentTheme = getCurrentTheme();
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+        // Set the html element attribute to the new theme
+        updateThemeValues(newTheme);
+        if (App.userId === '') return;
+
+        // Store the new theme in database if the user is logged in
+        try {
+            Fetcher.post(App.endpoints.updateUser, {
+                user_id: App.userId,
+                updates: {
+                    theme: newTheme,
+                },
+            });
+        } catch (err) {
+            console.error('Unable to set the user\'s theme.', err);
+        }
+    });
 })();
 
 
@@ -91,38 +141,38 @@ class Dragger {
     }
 }
 
-async function handleTaskChanges(element) {
-    const group = element.closest('.card-task-group');
+async function handleChoreChanges(element) {
+    const group = element.closest('.card-chore-group');
     const groupId = group.dataset.groupId;
 
     const updates = [];
-    const taskElements = group.querySelectorAll('.card-task');
+    const choreElements = group.querySelectorAll('.card-chore');
 
-    for (let i = 0; i < taskElements.length; i++) {
-        const taskId = taskElements[i].dataset.taskId;
+    for (let i = 0; i < choreElements.length; i++) {
+        const choreId = choreElements[i].dataset.choreId;
         updates.push({
-            task_id: taskId,
+            chore_id: choreId,
             group_id: groupId,
             position: i,
         });
     }
 
     try {
-        await Fetcher.post(App.endpoints.updateTasks, {
+        await Fetcher.post(App.endpoints.updateChores, {
             user_id: App.userId,
             updates: updates,
         });
     } catch (err) {
-        console.error('Unable to update tasks:', err);
+        console.error('Unable to update chores:', err);
     }
 }
 
 async function handleGroupChanges(element) {
-    const container = document.querySelector('.task-group-container');
+    const container = document.querySelector('.chore-group-container');
     if (!container) return;
 
     const updates = [];
-    const groupElements = container.querySelectorAll('.card-task-group');
+    const groupElements = container.querySelectorAll('.card-chore-group');
 
     for (let i = 0; i < groupElements.length; i++) {
         const groupId = groupElements[i].dataset.groupId;
@@ -142,7 +192,7 @@ async function handleGroupChanges(element) {
     }
 }
 
-new Dragger('.card-task-container', '.card-task[draggable="true"]', handleTaskChanges);
+new Dragger('.card-chore-container', '.card-chore[draggable="true"]', handleChoreChanges);
 new Dragger('.row', '.col[draggable="true"]', handleGroupChanges, true);
 
 
@@ -156,22 +206,22 @@ document.querySelectorAll('.link-edit-group-name').forEach((editLink) => {
         const editLinkParent = editLink.closest('[data-group-id]');
         const groupId = editLinkParent.dataset.groupId;
 
-        const taskGroupTitle = editLinkParent.querySelector('.task-group-title');
-        taskGroupTitle.classList.remove('d-flex');
-        taskGroupTitle.classList.add('d-none');
+        const choreGroupTitle = editLinkParent.querySelector('.chore-group-title');
+        choreGroupTitle.classList.remove('d-flex');
+        choreGroupTitle.classList.add('d-none');
 
-        const taskGroupForm = editLinkParent.querySelector('.task-group-form');
-        taskGroupForm.classList.remove('d-none');
-        taskGroupForm.classList.add('d-flex');
+        const choreGroupForm = editLinkParent.querySelector('.chore-group-form');
+        choreGroupForm.classList.remove('d-none');
+        choreGroupForm.classList.add('d-flex');
 
-        const taskGroupFormInput = taskGroupForm.querySelector('input');
-        taskGroupFormInput.focus();
+        const choreGroupFormInput = choreGroupForm.querySelector('input');
+        choreGroupFormInput.focus();
 
-        async function handleTaskGroupFormChange(event) {
+        async function handleChoreGroupFormChange(event) {
             event.preventDefault();
 
-            const newTitle = taskGroupFormInput.value;
-            taskGroupTitle.querySelector('span').innerText = newTitle;
+            const newTitle = choreGroupFormInput.value;
+            choreGroupTitle.querySelector('span').innerText = newTitle;
 
             try {
                 await Fetcher.post(App.endpoints.updateGroups, {
@@ -185,18 +235,18 @@ document.querySelectorAll('.link-edit-group-name').forEach((editLink) => {
                 console.error('Unable to update group title:', err);
             }
 
-            taskGroupTitle.classList.remove('d-none');
-            taskGroupTitle.classList.add('d-flex');
+            choreGroupTitle.classList.remove('d-none');
+            choreGroupTitle.classList.add('d-flex');
 
-            taskGroupForm.classList.remove('d-flex');
-            taskGroupForm.classList.add('d-none');
+            choreGroupForm.classList.remove('d-flex');
+            choreGroupForm.classList.add('d-none');
 
-            taskGroupFormInput.removeEventListener('change', handleTaskGroupFormChange);
-            taskGroupFormInput.removeEventListener('blur', handleTaskGroupFormChange);
+            choreGroupFormInput.removeEventListener('change', handleChoreGroupFormChange);
+            choreGroupFormInput.removeEventListener('blur', handleChoreGroupFormChange);
         }
 
-        taskGroupFormInput.addEventListener('change', handleTaskGroupFormChange);
-        taskGroupFormInput.addEventListener('blur', handleTaskGroupFormChange);
+        choreGroupFormInput.addEventListener('change', handleChoreGroupFormChange);
+        choreGroupFormInput.addEventListener('blur', handleChoreGroupFormChange);
    });
 });
 
@@ -230,14 +280,14 @@ if (commentsAppContainer) {
                     },
                 },
                 isInitialized: false,
-                taskData: {},
+                choreData: {},
             }
         },
         mounted() {
-            // Get the data about the current task from the element
-            const taskRefElement = this.$refs.taskRefElement;
-            if (taskRefElement) {
-                this.taskData = {...taskRefElement.dataset};
+            // Get the data about the current chore from the element
+            const choreRefElement = this.$refs.choreRefElement;
+            if (choreRefElement) {
+                this.choreData = {...choreRefElement.dataset};
             }
 
             // Initialize SimpleMDE instance of the add-comment section
@@ -256,7 +306,7 @@ if (commentsAppContainer) {
             async getComments() {
                 try {
                     // Read the comments from the API
-                    const response = await Fetcher.get(App.endpoints.getComments, {task_id: this.taskData.id});
+                    const response = await Fetcher.get(App.endpoints.getComments, {chore_id: this.choreData.id});
                     const data = await response.json();
                     if (data.comments) {
                         data.comments.forEach((comment) => {
@@ -279,8 +329,8 @@ if (commentsAppContainer) {
             isCommentEdited(commentId) {
                 return commentId === this.editedComment?.id;
             },
-            isTaskOwner(taskId) {
-                return App.userId === this.taskData.ownerId;
+            isChoreOwner(choreId) {
+                return App.userId === this.choreData.ownerId;
             },
             setCommentEditForm(comment) {
                 this.forms[comment.id] = {
@@ -297,7 +347,7 @@ if (commentsAppContainer) {
                 try {
                     const response = await Fetcher.post(App.endpoints.addComment, {
                         ...this.forms.add,
-                        task_id: this.taskData.id
+                        chore_id: this.choreData.id
                     });
 
                     const data = await response.json();

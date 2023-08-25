@@ -6,9 +6,9 @@ from wtforms.validators import DataRequired
 # TODO: It would be nice to integrate both forms into one
 
 
-class AddTaskForm(FlaskForm):
+class AddChoreForm(FlaskForm):
     def __init__(self, *args, group_choices=None, **kwargs):
-        super(AddTaskForm, self).__init__(*args, **kwargs)
+        super(AddChoreForm, self).__init__(*args, **kwargs)
 
         if group_choices:
             self.group.choices = group_choices
@@ -17,12 +17,12 @@ class AddTaskForm(FlaskForm):
     group = SelectField('Group', choices=[])
     description = TextAreaField('Description', render_kw={'rows': 10, 'style': 'min-height:200px;'},
                                 validators=[DataRequired()])
-    submit = SubmitField('Add task')
+    submit = SubmitField('Add chore')
 
 
-class EditTaskForm(FlaskForm):
+class EditChoreForm(FlaskForm):
     def __init__(self, *args, group_choices=None, **kwargs):
-        super(EditTaskForm, self).__init__(*args, **kwargs)
+        super(EditChoreForm, self).__init__(*args, **kwargs)
 
         if group_choices:
             self.group.choices = group_choices
