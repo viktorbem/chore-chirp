@@ -18,6 +18,8 @@ def add_group():
     new_group = Group.create_group(current_user.id, 'Untitled group')
     if not new_group:
         flash('New group could not be added. Please try again later.', 'warning')
+    else:
+        flash('New group has been added.', 'success')
 
     return redirect(url_for('routes.index'))
 

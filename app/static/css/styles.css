@@ -13,6 +13,15 @@ body {
     display: block;
 }
 
+.toast.text-bg-warning .btn-close {
+    filter: none;
+}
+
+.toast.text-bg-danger .btn-close,
+.toast.text-bg-success .btn-close {
+    filter: var(--bs-btn-close-white-filter);
+}
+
 .is-hidden {
     display: none !important;
 }

@@ -27,7 +27,7 @@ def login():
         else:
             flash('Unable to log in. Please try again.', 'danger')
 
-    return render_template('user_login.html', form=form)
+    return render_template('user_login.j2', form=form)
 
 
 @user.route('/register', methods=['GET', 'POST'])
@@ -48,7 +48,7 @@ def register():
             flash('Successfully logged in.', 'success')
             return redirect(url_for('routes.index'))
 
-    return render_template('user_register.html', form=form)
+    return render_template('user_register.j2', form=form)
 
 
 @user.route('/logout')

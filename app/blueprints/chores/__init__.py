@@ -25,12 +25,13 @@ def add_chore():
         description = sanitize_markdown(form.description.data)
 
         new_chore = Chore.create_chore(current_user.id, title, description, group_id)
-        return redirect(url_for('routes.index'))
+        flash('New chore has been added.', 'success')
+        return redirect(url_for('chores.view_chore', chore_id=new_chore.id))
 
     form.group.data = request.args.get('group_id', '')
 
     metadata = Chore.get_chores_metadata(None)
-    return render_template('views/chore-add.html', form=form, metadata=metadata)
+    return render_template('views/chore-add.j2', form=form, metadata=metadata)
 
 
 @chores.route('/edit/<chore_id>', methods=['GET', 'POST'])
@@ -72,7 +73,7 @@ def edit_chore(chore_id):
     form.description.data = chore.description
 
     metadata = Chore.get_chores_metadata(chore.id)
-    return render_template('views/chore-edit.html', form=form, metadata=metadata, chore=chore)
+    return render_template('views/chore-edit.j2', form=form, metadata=metadata, chore=chore)
 
 
 @chores.route('/remove/<chore_id>')
@@ -105,7 +106,7 @@ def view_chore(chore_id):
         return redirect(url_for('routes.index'))
 
     metadata = Chore.get_chores_metadata(chore.id)
-    return render_template('views/chore.html', metadata=metadata, chore=chore)
+    return render_template('views/chore.j2', metadata=metadata, chore=chore)
 
 
 # API routes

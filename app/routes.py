@@ -14,4 +14,4 @@ def index():
     for group in groups:
         group.chore_objects = Chore.get_chores_by_group(group.id)
 
-    return render_template('index.html', groups=groups)
+    return render_template('index.j2', groups=groups)

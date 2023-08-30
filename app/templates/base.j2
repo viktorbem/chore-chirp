@@ -44,29 +44,22 @@
                 updateGroups: "{{ url_for('groups.update_groups') }}",
                 updateUser: "{{ url_for('user.update_user') }}",
             },
+            flashMessages: [{% include 'snippets/flash-messages.j2' %}],
             userId: "{{ current_user.id }}",
         };
     </script>
-
-    {% if not current_user.is_authenticated %}
-        <!-- Initialize the theme if user is not logged in -->
-        <script>
-            (() => {
-
-            })();
-        </script>
-    {% endif %}
 
     {% block head %}{% endblock %}
 </head>
 
 <body>
-    {% include 'sections/navbar.html' %}
-    {% include 'snippets/flash-messages.html' %}
+    {% include 'sections/navbar.j2' %}
 
     <main class="container container-fluid mt-4">
         {% block body %}{% endblock %}
     </main>
+
+    <div id="toast-container" class="toast-container bottom-0 end-0 py-4 px-3"></div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
