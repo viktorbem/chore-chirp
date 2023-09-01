@@ -1,0 +1,16 @@
+{% extends 'base.j2' %}
+
+{% block head %}
+    <title>ChoreChirp: Don't let your chaos steal the spotlight</title>
+{% endblock %}
+
+{% block body %}
+    <div class="row align-items-start g-lg-5 py-0 py-lg-5">
+        <div class="col-lg-7 text-start py-5">
+            {% include 'sections/welcome.j2' %}
+        </div>
+        <div class="col-md-10 mx-auto col-lg-5 pb-5">
+            {% block user_form %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}

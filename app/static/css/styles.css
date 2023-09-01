@@ -13,6 +13,14 @@ body {
     display: block;
 }
 
+svg.logo-icon > rect {
+    fill: var(--bs-body-color);
+}
+
+svg.logo-icon > path {
+    fill: var(--bs-body-bg);
+}
+
 .toast.text-bg-warning .btn-close {
     filter: none;
 }
@@ -74,4 +82,12 @@ body {
 .form-control:-webkit-autofill {
     box-shadow: inset 0 0 0 32px var(--bs-body-bg) !important;
     -webkit-text-fill-color: var(--bs-body-color);
+}
+
+@media (max-width: 991.98px) {
+    .toast-container {
+        top: unset !important;
+        bottom: 0;
+    }
+
 }

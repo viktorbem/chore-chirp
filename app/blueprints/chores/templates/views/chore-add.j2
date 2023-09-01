@@ -14,7 +14,7 @@
             </div>
 
             <div class="card-body">
-                <form action="{{ url_for('chores.add_chore') }}" method="post">
+                <form action="{{ url_for('chores.add_chore') }}" method="post" novalidate>
                     {{ form.csrf_token }}
 
                     {{ chore_form_field(form.title) }}
