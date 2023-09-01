@@ -12,12 +12,12 @@
                     <span>{{ chore.title }}</span>
                     <div>
                         <a href="{{ url_for('chores.edit_chore', chore_id=chore.id) }}"
-                           class="link-secondary" title="Edit chore">
+                           class="link-secondary ms-1" title="Edit chore">
                             <i class="bi bi-pencil-square"></i>
                         </a>
                         <a href="{{ url_for('chores.remove_chore', chore_id=chore.id) }}"
-                           class="link-secondary" title="Remove chore">
-                            <i class="bi bi-trash text-danger"></i>
+                           class="link-secondary ms-1" title="Remove chore">
+                            <i class="bi bi-trash"></i>
                         </a>
                     </div>
                 </h3>

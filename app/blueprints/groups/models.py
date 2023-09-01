@@ -5,19 +5,18 @@ from flask import current_app
 class Group:
     def __init__(self, group_data):
         self.id = group_data.get('_id')
-        self.title = group_data.get('title')
+        self.title = group_data.get('title', '')
         self.position = group_data.get('position')
         self.user_id = group_data.get('user_id')
 
     @classmethod
-    def create_group(cls, user_id, title):
+    def create_group(cls, user_id):
         user_groups = cls.get_groups_by_user(user_id)
         position = 0
         if len(user_groups) > 0:
             last_group = user_groups.pop()
             position = last_group.position + 1
         group_data = {
-            'title': title,
             'position': position,
             'user_id': user_id
         }

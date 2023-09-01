@@ -3,20 +3,19 @@
 {% macro group_card(group) %}
 
     <div class="col" draggable="true">
-        <div class="card card-chore-group mb-4 rounded-3 shadow-sm h-100" data-group-id="{{ group.id }}">
+        <div class="card card-chore-group rounded-3 shadow-sm h-100" data-group-id="{{ group.id }}"
+             data-group-title="{{ group.title }}" data-chores-count="{{ group.chore_objects | length }}">
             <div class="card-header py-3">
                 <h4 class="chore-group-title my-0 fw-normal d-flex justify-content-between align-items-center">
                     <span>{{ group.title }}</span>
                     <div>
-                        <a href="#" class="link-edit-group-name link-secondary" title="Edit title">
+                        <a href="#" class="link-edit-group-name link-secondary ms-1" title="Edit group title">
                             <i class="bi bi-pencil-square"></i>
                         </a>
-                        {% if group.chore_objects|length == 0 %}
-                            <a href="{{ url_for('groups.remove_group', group_id=group.id) }}"
-                               class="link-remove-group link-secondary" title="Remove group">
-                                <i class="bi bi-trash"></i>
-                            </a>
-                        {% endif %}
+                        <a href="{{ url_for('groups.remove_group', group_id=group.id) }}"
+                           class="link-remove-group link-secondary ms-1" title="Remove group">
+                            <i class="bi bi-trash"></i>
+                        </a>
                     </div>
                 </h4>
                 <form class="chore-group-form d-none justify-content-between align-items-center">
@@ -25,13 +24,14 @@
                 </form>
             </div>
             <div class="card-body card-chore-container text-start">
-
                 {% for chore in group.chore_objects %}
                     {{ chore_card(chore) }}
                 {% endfor %}
-
+                <div class="chore-group-empty text-secondary h-100 justify-content-center align-items-center">
+                    Group is empty
+                </div>
             </div>
-            <div class="px-3 pb-3">
+            <div class="card-footer">
                 <a href="{{ url_for('chores.add_chore', group_id=group.id) }}"
                    class="w-100 btn btn-lg btn-outline-secondary">Add chore</a>
             </div>

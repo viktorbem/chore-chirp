@@ -4,7 +4,7 @@
 
         <template v-if="isInitialized">
             <div class="card mb-4" v-for="comment in comments" :key="comment.id">
-                <div class="card-header" :class="comment.hidden && 'card-header-hidden'">
+                <div class="card-header" :class="comment.hidden && 'comment-header-hidden'">
                     <h6 class="comment-title my-0 d-flex justify-content-between align-items-center">
                         <template v-if="comment.hidden">
                             <div>

@@ -1,11 +1,12 @@
 {% from 'macros/logo-icon.j2' import logo_icon %}
+{% from 'macros/navbar-link.j2' import navbar_link %}
 
 <header>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container container-fluid">
-            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('routes.index') }}">
-                {{ logo_icon(32, 32) }}
-                <span class="ms-2">ChoreChirp</span>
+            <a class="navbar-brand" href="{{ url_for('routes.index') }}">
+                {{ logo_icon(32, 32, 1) }}
+                <span class="ms-1">ChoreChirp</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
@@ -13,12 +14,17 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                {% if current_user.is_authenticated %}
+                    <div class="navbar-nav">
+                        {{ navbar_link('routes.home', 'My chores') }}
+                    </div>
+                {% endif %}
                 <div class="navbar-nav ms-auto">
                     {% if current_user.is_authenticated %}
-                        <a class="nav-link" href="{{ url_for('user.logout') }}">Logout</a>
+                        {{ navbar_link('user.logout', 'Logout') }}
                     {% else %}
-                        <a class="nav-link" href="{{ url_for('user.signup') }}">Sign Up</a>
-                        <a class="nav-link" href="{{ url_for('user.login') }}">Login</a>
+                        {{ navbar_link('user.signup', 'Sign Up') }}
+                        {{ navbar_link('user.login', 'Login') }}
                     {% endif %}
                     <div>
                         <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-secondary"></div>

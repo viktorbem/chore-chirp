@@ -13,8 +13,7 @@ groups = Blueprint('groups', __name__, template_folder='templates')
 @groups.route('/add')
 @login_required
 def add_group():
-    # TODO: It might be fun to use some API to randomly generate group titles
-    new_group = Group.create_group(current_user.id, 'Untitled group')
+    new_group = Group.create_group(current_user.id)
     if not new_group:
         flash('New group could not be added. Please try again later.', 'warning')
     else:

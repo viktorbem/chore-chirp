@@ -1,6 +1,6 @@
-{% macro logo_icon(width, height) %}
+{% macro logo_icon(width, height, margin) %}
 
-    <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" width="{{ width }}" height="{{ height }}" viewBox="0 0 100 100">
+    <svg class="logo-icon mb-{{ margin }}" xmlns="http://www.w3.org/2000/svg" width="{{ width }}" height="{{ height }}" viewBox="0 0 100 100">
         <rect width="100" height="100" rx="20" fill="#000000"></rect>
         <path d="M52.66 74.93Q44.92 74.93 38.75 71.74Q32.59 68.54 29.12 62.87Q25.66 57.20 25.66 50.00L25.66 50.00Q25.66 42.80 29.12 37.13Q32.59 31.46 38.75 28.27Q44.92 25.07 52.66 25.07L52.66 25.07Q60.31 25.07 66.02 28.27Q71.73 31.46 74.34 37.40L74.34 37.40L63.45 43.25Q59.67 36.59 52.56 36.59L52.56 36.59Q47.08 36.59 43.48 40.19Q39.88 43.79 39.88 50.00L39.88 50.00Q39.88 56.21 43.48 59.81Q47.08 63.41 52.56 63.41L52.56 63.41Q59.77 63.41 63.45 56.75L63.45 56.75L74.34 62.69Q71.73 68.45 66.02 71.69Q60.31 74.93 52.66 74.93L52.66 74.93Z" fill="#fff"></path>
     </svg>

@@ -1,8 +1,31 @@
-/* TODO: These styles might need some refactoring */
+/* General styles */
 
 body {
     min-height: 100vh;
 }
+
+
+/* Utilities */
+
+.is-hidden {
+    display: none !important;
+}
+
+
+/* Bootstrap overrides */
+
+.form-control:autofill,
+.form-control:-webkit-autofill {
+    box-shadow: inset 0 0 0 32px var(--bs-body-bg) !important;
+    -webkit-text-fill-color: var(--bs-body-color);
+}
+
+.link-secondary {
+    text-decoration: none !important;
+}
+
+
+/* Color themes related styles */
 
 #dark-mode-toggle i {
     display: none;
@@ -13,13 +36,16 @@ body {
     display: block;
 }
 
+svg.logo-icon > path {
+    fill: var(--bs-body-bg);
+}
+
 svg.logo-icon > rect {
     fill: var(--bs-body-color);
 }
 
-svg.logo-icon > path {
-    fill: var(--bs-body-bg);
-}
+
+/* Toast (flash) messages */
 
 .toast.text-bg-warning .btn-close {
     filter: none;
@@ -30,36 +56,68 @@ svg.logo-icon > path {
     filter: var(--bs-btn-close-white-filter);
 }
 
-.is-hidden {
+@media (max-width: 991.98px) {
+    .toast-container {
+        bottom: 0;
+        top: unset !important;
+    }
+}
+
+
+/* My chores dashboard */
+
+@media (min-width: 992px) {
+    body {
+        height: 100vh;
+        overflow-y: hidden;
+    }
+
+    .card-chore-container {
+        max-height: calc(100vh - 240px);
+        overflow-y: auto;
+    }
+}
+
+.card-chore-container > .chore-group-empty {
+    display: none;
+}
+
+.card-chore-container > *:first-child:not(.card-chore) {
+    display: flex;
+}
+
+.card-chore-group:not([data-chores-count="0"]) .link-remove-group {
     display: none !important;
+}
+
+.card-chore-group {
+    min-height: 25vh;
 }
 
 .card-chore-group .btn-outline-secondary,
 .chore-group-container .btn-outline-secondary {
-    display: flex;
     align-items: center;
-    justify-content: center;
     border-style: dashed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .card-chore.dragging {
-    opacity: 0.5;
     background-color: var(--bs-gray-300);
+    opacity: 0.5;
 }
 
 .col.dragging > .card,
 .col.dragging .card-chore {
-    opacity: 0.5;
     background-color: var(--bs-gray-300);
+    opacity: 0.5;
 }
 
-.comment-title .link-secondary,
-.chore-group-title .link-secondary,
-.chore-detail-title .link-secondary {
-    text-decoration: none !important;
-}
 
-.card-header-hidden {
+/* Comments related styles */
+
+.comment-header-hidden {
     border-bottom: 0;
 }
 
@@ -74,20 +132,9 @@ svg.logo-icon > path {
     margin-left: 1em;
 }
 
+
+/* Markdown related styles */
+
 .codehilite {
     background-color: var(--bs-tertiary-bg) !important;
-}
-
-.form-control:autofill,
-.form-control:-webkit-autofill {
-    box-shadow: inset 0 0 0 32px var(--bs-body-bg) !important;
-    -webkit-text-fill-color: var(--bs-body-color);
-}
-
-@media (max-width: 991.98px) {
-    .toast-container {
-        top: unset !important;
-        bottom: 0;
-    }
-
 }

@@ -114,7 +114,6 @@ class Dragger {
     constructor(containerSelector, childSelector, handler=null, horizontal=false) {
         this.containerSelector = containerSelector;
         this.childSelector = childSelector;
-        this.lastChild = document.querySelector(`${this.containerSelector} > *:not([draggable="true"])`);
 
         this.handler = handler;
         this.horizontal = horizontal;
@@ -155,6 +154,7 @@ class Dragger {
     }
 
     getDragAfterElement(container, x, y) {
+        const lastChild = container.querySelector(':scope > *:not([draggable="true"])');
         const childElements = [...container.querySelectorAll(`${this.childSelector}:not(.dragging)`)];
         const afterElement = childElements.reduce((closest, child) => {
             const box = child.getBoundingClientRect();
@@ -163,7 +163,7 @@ class Dragger {
                 return { element: child, offset: offset };
             }
             return closest;
-        }, { element: this.lastChild, offset: Number.NEGATIVE_INFINITY });
+        }, { element: lastChild, offset: Number.NEGATIVE_INFINITY });
         return afterElement.element;
     }
 
@@ -175,6 +175,14 @@ class Dragger {
         return y - box.top - (box.height / 2);
     }
 }
+
+document.addEventListener('chores:updated', () => {
+    const groups = document.querySelectorAll('.card-chore-group');
+    groups.forEach((group) => {
+        const chores = group.querySelectorAll('.card-chore[draggable="true"]');
+        group.dataset.choresCount = chores.length.toString();
+    });
+});
 
 async function handleChoreChanges(element) {
     const group = element.closest('.card-chore-group');
@@ -200,6 +208,8 @@ async function handleChoreChanges(element) {
     } catch (err) {
         console.error('Unable to update chores:', err);
     }
+
+    document.dispatchEvent(new Event('chores:updated'));
 }
 
 async function handleGroupChanges(element) {
@@ -255,7 +265,17 @@ document.querySelectorAll('.link-edit-group-name').forEach((editLink) => {
         async function handleChoreGroupFormChange(event) {
             event.preventDefault();
 
-            const newTitle = choreGroupFormInput.value;
+            const newTitle = choreGroupFormInput.value.trim();
+
+            if (newTitle === '') {
+                Toaster.flash('The name of the group couldn\'t be empty.', 'danger');
+                setTimeout(() => {
+                    choreGroupFormInput.focus();
+                }, 0);
+                return;
+            }
+
+            editLinkParent.dataset.groupTitle = newTitle;
             choreGroupTitle.querySelector('span').innerText = newTitle;
 
             try {
@@ -276,13 +296,22 @@ document.querySelectorAll('.link-edit-group-name').forEach((editLink) => {
             choreGroupForm.classList.remove('d-flex');
             choreGroupForm.classList.add('d-none');
 
+            choreGroupForm.removeEventListener('submit', handleChoreGroupFormChange);
             choreGroupFormInput.removeEventListener('change', handleChoreGroupFormChange);
             choreGroupFormInput.removeEventListener('blur', handleChoreGroupFormChange);
         }
 
+        choreGroupForm.addEventListener('submit', handleChoreGroupFormChange);
         choreGroupFormInput.addEventListener('change', handleChoreGroupFormChange);
         choreGroupFormInput.addEventListener('blur', handleChoreGroupFormChange);
    });
+});
+
+document.querySelectorAll('[data-group-title=""]').forEach((group) => {
+    const editLink = group.querySelector('.link-edit-group-name');
+    if (editLink) {
+        editLink.click();
+    }
 });
 
 
