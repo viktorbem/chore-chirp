@@ -1,5 +1,13 @@
 .idea
+
 venv
 __pycache__
 
 .env
+
+node_modules
+package-lock.json
+
+bundle.css
+bundle.js
+bundles.j2
