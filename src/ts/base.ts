@@ -38,6 +38,6 @@ document.querySelectorAll<HTMLElement>('[data-group-title=""]').forEach((group) 
 });
 
 // Initialize SimpleMDE markdown editor for every textarea
-document.querySelectorAll('textarea:not(.vue)').forEach((element) => {
+document.querySelectorAll<HTMLTextAreaElement>('textarea:not(.vue)').forEach((element) => {
     new SimpleMDE({ element: element, forceSync: true, status: false });
 });

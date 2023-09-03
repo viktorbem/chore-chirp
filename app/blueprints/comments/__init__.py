@@ -16,8 +16,6 @@ def get_comments():
         return jsonify({'error': 'Unable to fetch comments due to missing chore ID.'}), 403
 
     stored_comments = Comment.get_comments_by_chore(chore_id)
-    if len(stored_comments) == 0:
-        return jsonify({'error': 'No comments for this chore.'}), 404
 
     return jsonify({'success': 'true', 'comments': [comment.get_dict() for comment in stored_comments]}), 200
 

@@ -90,6 +90,25 @@ svg.logo-icon {
     }
 }
 
+.chore-group-container {
+    .card-chore-group {
+        min-height: 25vh;
+
+        &:not([data-chores-count="0"]) .link-remove-group {
+            display: none !important;
+        }
+    }
+
+    .col.dragging {
+
+        .card,
+        .card-chore {
+            background-color: var(--bs-gray-300);
+            opacity: 0.5;
+        }
+    }
+}
+
 .card-chore-container {
 
     > .chore-group-empty {
@@ -100,26 +119,9 @@ svg.logo-icon {
         display: flex;
     }
 
-    .card-chore-group {
-        min-height: 25vh;
-
-        &:not([data-chores-count="0"]) .link-remove-group {
-            display: none !important;
-        }
-    }
-
     .card-chore.dragging {
         background-color: var(--bs-gray-300);
         opacity: 0.5;
-    }
-
-    .col.dragging {
-
-        .card,
-        .card-chore {
-            background-color: var(--bs-gray-300);
-            opacity: 0.5;
-        }
     }
 }
 

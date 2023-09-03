@@ -20,7 +20,7 @@
                         <span>{{comment.user}}</span>
                         <span class="d-none d-lg-inline-block comment-timestamp text-body-tertiary">{{comment.created_at}}</span>
                     </div>
-                    <div v-if="!comment.isEdited">
+                    <div v-if="!comment.is_edited">
                         <a href="#" v-if="isCommentAuthor" @click.prevent="toggleCommentEdit"
                            class="ms-2 link-secondary" title="Edit comment">
                             <i class="bi bi-pencil-square"></i>
@@ -34,8 +34,8 @@
             </h6>
         </div>
         <template v-if="!comment.hidden">
-            <div class="card-body" :class="comment.isEdited && 'is-hidden'" v-html="comment.body"></div>
-            <div class="card-body" :class="!comment.isEdited && 'is-hidden'">
+            <div class="card-body" :class="comment.is_edited && 'is-hidden'" v-html="comment.body"></div>
+            <div class="card-body" :class="!comment.is_edited && 'is-hidden'">
                 <form @submit.prevent="submitEditComment">
                     <div class="form-floating mb-3">
                         <textarea class="form-control vue" v-model="form.comment_body"

@@ -1,48 +1,52 @@
-// @ts-nocheck
-
-import {defineComponent} from 'vue';
-import {mapState} from 'vuex';
+import {computed, defineComponent, onMounted, ref} from 'vue';
+import {useStore} from 'vuex';
 
 import Toaster from '../../../utilities/toaster';
 
+import {IChoreData} from '../stores/modules/choredata-store';
+
 export default defineComponent({
     name: 'AddCommentComponent',
-    data() {
-        return {
-            form: {
-                user_id: App.userId,
-                comment_body: '',
-            },
-            editor: null,
-        }
-    },
-    mounted() {
-        // Initialize SimpleMDE instance of the add-comment section
-        this.editor = new SimpleMDE({element: this.$refs.commentBody, status: false});
-        this.editor.codemirror.on('change', () => {
-            this.form.comment_body = this.editor.value();
+    setup() {
+        const store = useStore();
+
+        let editor: (typeof SimpleMDE) | null = null;
+        const commentBody = ref<HTMLTextAreaElement>();
+        const form = ref({
+            user_id: App.userId,
+            comment_body: '',
         });
-    },
-    computed: {
-        ...mapState({
-            choreData: state => state.choreData.choreData,
-        }),
-    },
-    methods: {
-        async submitAddComment() {
-            if (this.form.comment_body.trim() === '') {
+
+        const choreData = computed<IChoreData>(() => store.state.choreData.choreData);
+
+        const submitAddComment = async () => {
+            if (form.value.comment_body.trim() === '') {
                 Toaster.flash('The comment couldn\'t be empty.', 'warning');
                 return;
             }
 
             const payload = {
-                ...this.form,
-                chore_id: this.choreData.id
-            }
+                ...form.value,
+                chore_id: choreData.value.id,
+            };
 
-            this.$store.dispatch('comments/addComment', payload).then(() => {
-                this.editor.value('');
+            store.dispatch('comments/addComment', payload).then(() => {
+                editor?.value('');
             });
-        },
-    }
+        };
+
+        onMounted(() => {
+            // Initialize SimpleMDE instance of the add-comment section
+            editor = new SimpleMDE({element: commentBody.value, status: false});
+            editor.codemirror.on('change', () => {
+                form.value.comment_body = editor.value();
+            });
+        });
+
+        return {
+            commentBody,
+            form,
+            submitAddComment,
+        };
+    },
 });
