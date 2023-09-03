@@ -2,13 +2,17 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "CommonJS",
+    "types": ["vue"],
     "outDir": "./app/static/js",
     "rootDir": "./src",
     "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
   },
   "include": [
-    "./src/**/*.ts"
+    "./src/**/*.js",
+    "./src/**/*.ts",
+    "./src/**/*.vue"
   ],
   "exclude": [
     "node_modules"

@@ -29,10 +29,6 @@
     <!-- Bootstrap Icons CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
-    <!-- VueJS scripts -->
-    <!-- TODO: Perhaps this could be a part of the javascript build one day -->
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-
     <!-- SimpleMDE https://simplemde.com/ -->
     <!-- TODO: Look for some other options, that could be handled from flask -->
     <link href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css" rel="stylesheet">
@@ -68,7 +64,7 @@
         {% block body %}{% endblock %}
     </main>
 
-    <div id="toast-container" class="toast-container top-0 start-50 translate-middle-x py-4 px-3"></div>
+    <div id="toast-container" class="toast-container position-fixed top-0 start-50 translate-middle-x py-4 px-3"></div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"

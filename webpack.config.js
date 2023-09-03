@@ -1,6 +1,8 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { VueLoaderPlugin } = require('vue-loader');
+const { DefinePlugin } = require('webpack');
 
 module.exports = {
     entry: './src/main.ts',
@@ -13,9 +15,15 @@ module.exports = {
             {
                 test: /\.(js|ts)$/,
                 exclude: /node_modules/,
-                use: [
-                    'ts-loader'
-                ],
+                loader: 'ts-loader',
+                options: {
+                    appendTsSuffixTo: [/\.vue$/],
+                },
+            },
+            {
+                test: /\.vue$/,
+                exclude: /node_modules/,
+                loader: 'vue-loader',
             },
             {
                 test: /\.(css|scss)$/,
@@ -29,6 +37,7 @@ module.exports = {
         ],
     },
     plugins: [
+        new VueLoaderPlugin(),
         new MiniCssExtractPlugin({
             filename: 'bundle.css',
         }),
@@ -43,8 +52,14 @@ module.exports = {
             },
             inject: false,
         }),
+        new DefinePlugin({
+            __VUE_PROD_DEVTOOLS__: true
+        }),
     ],
     resolve: {
-        extensions: ['.css', '.scss', '.js', '.ts'],
+        alias: {
+            'vue$': '@vue/runtime-dom',
+        },
+        extensions: ['.css', '.scss', '.js', '.ts', '.vue'],
     },
 };

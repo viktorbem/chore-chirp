@@ -90,4 +90,4 @@ def update_comments():
     if updated_count == updates_count:
         return jsonify({'success': f'All {updates_count} comments successfully updated'}), 200
 
-    return jsonify({'succes': f'Successfully updated {updated_count} of {updates_count} comments'}), 200
+    return jsonify({'success': f'Successfully updated {updated_count} of {updates_count} comments'}), 200

@@ -31,6 +31,9 @@
 
     <hr>
 
-    {% include 'comments.j2' %}
+    <!-- Comments section -->
+    <section class="mt-4">
+        <div id="comments-app-container" data-id="{{ chore.id }}" data-owner-id="{{ chore.user_id }}" v-cloak></div>
+    </section>
 
 {% endblock %}
