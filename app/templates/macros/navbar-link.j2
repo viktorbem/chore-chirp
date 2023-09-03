@@ -1,0 +1,10 @@
+{% macro navbar_link(route, title) %}
+
+    {% set active_class = '' %}
+    {% if request.path == url_for(route) %}
+        {% set active_class = 'active' %}
+    {% endif %}
+
+    <a class="nav-link {{ active_class }}" href="{{ url_for(route) }}">{{ title }}</a>
+
+{% endmacro %}

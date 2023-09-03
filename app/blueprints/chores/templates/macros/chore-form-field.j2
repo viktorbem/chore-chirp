@@ -1,0 +1,19 @@
+{% macro chore_form_field(field) %}
+
+    {% set custom_class = 'form-control' %}
+    {% if field.type == 'SelectField' %}
+        {% set custom_class = 'form-select' %}
+    {% endif %}
+
+    <div class="form-floating mb-3">
+        {{ field(class_=custom_class, placeholder=field.label.text) }}
+        {% if field.type != 'TextAreaField' %}
+            <label for="{{ field.id }}">{{ field.label.text }}</label>
+        {% endif %}
+
+        {% for error in field.errors %}
+            <div class="text-danger mt-1">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+{% endmacro %}

@@ -1,0 +1,23 @@
+{% from 'macros/user-form-field.j2' import user_form_field %}
+
+{% extends 'base-user.j2' %}
+
+{% block user_form %}
+    <form action="{{ url_for('user.login') }}" class="p-4 p-md-5 border rounded-3 bg-body-tertiary" method="post" novalidate >
+        {{ form.csrf_token }}
+
+        <h1 class="h3 mb-4 fw-normal">Log in to your account</h1>
+
+        {{ user_form_field(form.email) }}
+        {{ user_form_field(form.password) }}
+
+        <div class="d-flex justify-content-end">
+            {{ form.submit(class='w-100 btn btn-lg btn-success') }}
+        </div>
+
+        <hr class="my-4">
+        <small class="text-body-secondary">
+            New to ChoreChirp? <a href="{{ url_for('user.signup') }}">Create an account</a>.
+        </small>
+    </form>
+{% endblock %}

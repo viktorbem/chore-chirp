@@ -1,0 +1,11 @@
+<!-- Custom CSS and JS bundles -->
+<% for (const file of htmlWebpackPlugin.files.css) { %>
+    <% const fileWithHash = file.split('/').pop(); %>
+    <% const [filename, hash] = fileWithHash.split('?'); %>
+    <link href="{{ url_for('static', filename='<%= filename %>', v='<%= hash %>') }}" rel="stylesheet">
+<% } %>
+<% for (const file of htmlWebpackPlugin.files.js) { %>
+    <% const fileWithHash = file.split('/').pop(); %>
+    <% const [filename, hash] = fileWithHash.split('?'); %>
+    <script defer src="{{ url_for('static', filename='<%= filename %>', v='<%= hash %>') }}"></script>
+<% } %>

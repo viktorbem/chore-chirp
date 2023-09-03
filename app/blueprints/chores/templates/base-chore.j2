@@ -1,0 +1,17 @@
+{% extends 'base.j2' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-12 col-lg-8">
+            {% block main_column %}
+            {% endblock %}
+        </div>
+
+        <div class="col-12 col-lg-4">
+            {% include 'sections/chore-metadata.j2' %}
+
+            {% block side_column %}
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}

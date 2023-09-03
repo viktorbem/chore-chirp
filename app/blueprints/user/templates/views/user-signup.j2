@@ -1,0 +1,25 @@
+{% from 'macros/user-form-field.j2' import user_form_field %}
+
+{% extends 'base-user.j2' %}
+
+{% block user_form %}
+    <form action="{{ url_for('user.signup') }}" class="p-4 p-md-5 border rounded-3 bg-body-tertiary" method="post" novalidate>
+        {{ form.csrf_token }}
+        {{ form.theme }}
+
+        <h1 class="h3 mb-4 fw-normal">Sign up for a new account</h1>
+
+        {{ user_form_field(form.email) }}
+        {{ user_form_field(form.password) }}
+        {{ user_form_field(form.confirm_password) }}
+
+        <div class="d-flex justify-content-end">
+            {{ form.submit(class='w-100 btn btn-lg btn-success') }}
+        </div>
+
+        <hr class="my-4">
+        <small class="text-body-secondary">
+            Already have an account? <a href="{{ url_for('user.login') }}">Login instead</a>.
+        </small>
+    </form>
+{% endblock %}

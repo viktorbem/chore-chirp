@@ -1,7 +1,6 @@
 from flask import Blueprint, flash, jsonify, redirect, request, url_for
 from flask_login import current_user, login_required
 
-from app.blueprints.groups.forms import AddGroupForm
 from app.blueprints.groups.models import Group
 
 from app.helpers import get_group_chores_count
@@ -14,10 +13,11 @@ groups = Blueprint('groups', __name__, template_folder='templates')
 @groups.route('/add')
 @login_required
 def add_group():
-    # TODO: It might be fun to use some API to randomly generate group titles
-    new_group = Group.create_group(current_user.id, 'Untitled group')
+    new_group = Group.create_group(current_user.id)
     if not new_group:
         flash('New group could not be added. Please try again later.', 'warning')
+    else:
+        flash('New group has been added.', 'success')
 
     return redirect(url_for('routes.index'))
 
