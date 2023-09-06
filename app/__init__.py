@@ -1,5 +1,4 @@
 import os
-import uuid
 
 from dotenv import load_dotenv
 from flask import Flask
@@ -21,7 +20,7 @@ load_dotenv()
 
 def create_app():
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = uuid.uuid4().hex
+    app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
     # MongoDB initialization and configuration
     app.config['MONGODB_URI'] = os.environ.get('MONGODB_URI')
